@@ -1,0 +1,150 @@
+***********************************************Post Entity*******************************************************************
+create table script by hibernate -
+Hibernate: 
+    create table posts (
+        id bigint not null auto_increment,
+        content varchar(255) not null,
+        description varchar(255) not null,
+        title varchar(255) not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    alter table posts 
+       drop index UKmchce1gm7f6otpphxd6ixsdps
+Hibernate: 
+    alter table posts 
+       add constraint UKmchce1gm7f6otpphxd6ixsdps unique (title)
+       ================================================================================================================================
+       Hibernate: delete 
+    insert 
+    into
+        posts
+        (content, description, title) 
+    values
+        (?, ?, ?)
+        ==========================================================================================================
+        Hibernate: 
+    select
+        p1_0.id,
+        p1_0.content,
+        p1_0.description,
+        p1_0.title 
+    from
+        posts p1_0 
+    where
+        p1_0.id=?
+Hibernate: 
+    delete 
+    from
+        posts 
+    where
+        id=?
+        ============================================================================================================
+        Hibernate:pagination query 
+    select
+        p1_0.id,
+        p1_0.content,
+        p1_0.description,
+        p1_0.title 
+    from
+        posts p1_0 
+    limit
+        ?, ?
+Hibernate: 
+    select
+        count(p1_0.id) 
+    from
+        posts p1_0
+        *****************************************Comment Entity *******************************************************
+        Hibernate: 
+    create table comments (
+        id bigint not null auto_increment,
+        body varchar(255),
+        email varchar(255),
+        name varchar(255),
+        post_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    alter table comments 
+       add constraint FKh4c7lvsc298whoyd4w9ta25cr 
+       foreign key (post_id) 
+       references posts (id)
+       =============================================================================================================
+       Hibernate: User and Role entity with many to many assosiations
+    select
+        p1_0.id,
+        p1_0.content,
+        p1_0.description,
+        p1_0.title 
+    from
+        posts p1_0 
+    where
+        p1_0.id=?
+Hibernate: 
+    insert 
+    into
+        comments
+        (body, email, name, post_id) 
+    values
+        (?, ?, ?, ?)
+        ===============================================================================================================
+        Hibernate: 
+    create table roles (
+        id bigint not null auto_increment,
+        name varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    create table users (
+        id bigint not null auto_increment,
+        email varchar(255) not null,
+        name varchar(255),
+        password varchar(255) not null,
+        username varchar(255) not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    create table users_roles (
+        user_id bigint not null,
+        role_id bigint not null,
+        primary key (user_id, role_id)
+    ) engine=InnoDB
+Hibernate: 
+    alter table users 
+       drop index UK_6dotkott2kjsp8vw4d0m25fb7
+Hibernate: 
+    alter table users 
+       add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email)
+Hibernate: 
+    alter table users 
+       drop index UK_r43af9ap4edm43mmtq01oddj6
+Hibernate: 
+    alter table users 
+       add constraint UK_r43af9ap4edm43mmtq01oddj6 unique (username)
+Hibernate: 
+    alter table users_roles 
+       add constraint FKj6m8fwv7oqv74fcehir1a9ffy 
+       foreign key (role_id) 
+       references roles (id)
+Hibernate: 
+    alter table users_roles 
+       add constraint FK2o0jvgh89lemvvo17cbqvdxaa 
+       foreign key (user_id) 
+       references users (id)
+       =====================================================Category Management==========================================================
+       Hibernate: 
+    create table categories (
+        id bigint not null auto_increment,
+        description varchar(255),
+        name varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    alter table posts 
+       add column category_id bigint
+Hibernate: 
+    alter table posts 
+       add constraint FKijnwr3brs8vaosl80jg9rp7uc 
+       foreign key (category_id) 
+       references categories (id)
